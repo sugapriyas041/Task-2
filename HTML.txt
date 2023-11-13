@@ -1,0 +1,43 @@
+// Sample product data
+const products = [
+    { id: 1, name: "Product 1", price: 10, quantity: 100 },
+    { id: 2, name: "Product 2", price: 20, quantity: 50 },
+    // Add more product data here
+];
+
+// Function to display the list of products
+function displayProductList() {
+    const productList = document.getElementById("product-list");
+    productList.innerHTML = '';
+
+    products.forEach(product => {
+        const productItem = document.createElement("div");
+        productItem.classList.add("product-item");
+        productItem.innerHTML = `
+            <h2>${product.name}</h2>
+            <p>Price: $${product.price}</p>
+            <p>Quantity: ${product.quantity}</p>
+            <button onclick="showProductDetails(${product.id})">View Details</button>
+        `;
+        productList.appendChild(productItem);
+    });
+}
+
+// Function to show product details
+function showProductDetails(productId) {
+    const productDetails = document.getElementById("product-details");
+    const product = products.find(p => p.id === productId);
+
+    if (product) {
+        productDetails.innerHTML = `
+            <h2>${product.name}</h2>
+            <p>Price: $${product.price}</p>
+            <p>Quantity: ${product.quantity}</p>
+        `;
+    } else {
+        productDetails.innerHTML = "Product not found.";
+    }
+}
+
+// Initial display of product list
+displayProductList();

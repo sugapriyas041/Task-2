@@ -1,0 +1,129 @@
+html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Inventory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table, th, td {
+            border: 1px solid black;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        
+        #addButton {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        
+        #addButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Stock Inventory</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="stockBody">
+            <tr>
+                <td>Laptop</td>
+                <td>5</td>
+                <td>$1000</td>
+                <td>
+                    <button onclick="editRow(this)">Edit</button>
+                    <button onclick="deleteRow(this)">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Mobile Phone</td>
+                <td>10</td>
+                <td>$500</td>
+                <td>
+                    <button onclick="editRow(this)">Edit</button>
+                    <button onclick="deleteRow(this)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button id="addButton" onclick="addRow()">Add Product</button>
+
+    <script>
+        function addRow() {
+            var tableBody = document.getElementById("stockBody");
+            var newRow = document.createElement("tr");
+            newRow.innerHTML = "<td></td><td></td><td></td><td><button onclick='editRow(this)'>Edit</button><button onclick='deleteRow(this)'>Delete</button></td>";
+            tableBody.appendChild(newRow);
+        }
+        
+        function deleteRow(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+        
+        function editRow(button) {
+            var row = button.parentNode.parentNode;
+            var cells = row.getElementsByTagName("td");
+            
+            for (var i = 0; i < cells.length - 1; i++) {
+                var content = cells[i].innerHTML;
+                cells[i].innerHTML = "<input type='text' value='" + content + "' />";
+            }
+            
+            var editButton = row.querySelector("button:first-child");
+            editButton.innerHTML = "Save";
+            editButton.onclick = saveRow;
+        }
+        
+        function saveRow(button) {
+            var row = button.parentNode.parentNode;
+            var cells = row.getElementsByTagName("td");
+            
+            for (var i = 0; i < cells.length - 1; i++) {
+                var input = cells[i].getElementsByTagName("input")[0];
+                var content = input.value;
+                cells[i].innerHTML = content;
+            }
+            
+            var editButton = row.querySelector("button:first-child");
+            editButton.innerHTML = "Edit";
+            editButton.onclick = editRow;
+        }
+    </script>
+
+</body>
+</html>
